@@ -10,7 +10,7 @@ var (
 	ErrRecordNotFound = fmt.Errorf("record not found")
 	iface             string
 	dnsServer         string
-	interval          uint64 = 300
+	interval          uint64 = 180
 	debug             bool
 )
 
