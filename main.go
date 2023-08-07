@@ -23,7 +23,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&iface, "interface", "i", "", "interface name")
-	rootCmd.PersistentFlags().StringVarP(&dnsServer, "dns", "s", "223.5.5.5:53", "dns server")
+	rootCmd.PersistentFlags().StringVarP(&dnsServer, "dns", "s", "114.114.114.114:53", "dns server")
 	rootCmd.PersistentFlags().Uint64VarP(&interval, "interval", "t", 300, "sync interval")
 	rootCmd.PersistentFlags().BoolVarP(&debug, "debug", "d", false, "show debug log")
 	rootCmd.MarkPersistentFlagRequired("interface")
