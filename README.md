@@ -22,3 +22,9 @@ Start the service:
 ```shell
 net start wg-svcb
 ```
+
+### Linux
+
+```shell
+wg-svcb -i YOUR_INTERFACE -t 180
+```
