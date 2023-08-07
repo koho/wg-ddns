@@ -12,6 +12,8 @@ import (
 	"gopkg.in/ini.v1"
 )
 
+var opt = ini.LoadOptions{KeyValueDelimiters: "=", IgnoreInlineComment: true}
+
 func run() error {
 	for {
 		if err := sync(iface, dnsServer); err != nil && debug {
@@ -23,7 +25,7 @@ func run() error {
 
 func sync(name string, dnsServer string) error {
 	path := fmt.Sprintf("/etc/wireguard/%s.conf", name)
-	f, err := ini.Load(path)
+	f, err := ini.LoadSources(opt, path)
 	if err != nil {
 		return err
 	}
@@ -48,7 +50,7 @@ func sync(name string, dnsServer string) error {
 		}
 		peers[x.Key("PublicKey").String()] = addr
 		if newPort := strconv.Itoa(addr.Port); port != newPort {
-			endpoint.SetValue(newPort)
+			endpoint.SetValue(net.JoinHostPort(host, newPort))
 			changed = true
 		}
 	}
@@ -66,7 +68,7 @@ func compareAndUpdate(name string, peers map[string]*net.UDPAddr) error {
 	if err != nil {
 		return fmt.Errorf("%s", bytes.TrimSpace(output))
 	}
-	f, err := ini.Load(output)
+	f, err := ini.LoadSources(opt, output)
 	if err != nil {
 		return err
 	}
