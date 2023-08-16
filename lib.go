@@ -48,7 +48,11 @@ func GetRecord(domain string, dnsServer string) (*net.UDPAddr, error) {
 		return nil, fmt.Errorf("svcb port is not specified")
 	}
 	if ip == nil {
-		m.SetQuestion(dns.Fqdn(rr.Target), dns.TypeA)
+		if rr.Target == "." {
+			m.SetQuestion(dns.Fqdn(rr.Hdr.Name), dns.TypeA)
+		} else {
+			m.SetQuestion(dns.Fqdn(rr.Target), dns.TypeA)
+		}
 		r, _, err = c.Exchange(m, dnsServer)
 		if err != nil {
 			return nil, err
